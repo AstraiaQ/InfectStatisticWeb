@@ -155,7 +155,7 @@
                         textStyle: {
                             fontSize: 28
                         },
-                        left: 'center', // 左右居中
+                        left: 'center', 
                         subtextStyle: {
                             fontSize: 14
                         }
@@ -164,17 +164,17 @@
                     series: [{
                         type: 'map',
                         map: 'china', // 指定是中国地图
-                        data: (5<3) ? totalArray:currentArray, // 设置地图中的数据
+                        data: totalArray, // 设置地图中的数据
                         label: { // 控制默认显示省的名字
                             show: true
                         }
                     }],
-                    tooltip: { // 鼠标悬浮提示
+                    tooltip: { // 悬浮气泡
                         enterable:true,
                         triggerOn:'click',
                         position:'right',
                         formatter: function (params) { 
-                            var result = '累计确诊：'+params.data.name+'<br/>'+
+                            var result = '累计确诊：'+params.data.value+'<br/>'+
                                 '疑似确诊：'+params.data.suspect+'<br/>'+
                                 '治愈：'+params.data.cured+'<br/>'+
                                 '死亡：'+params.data.dead+'<br/>'+
@@ -198,59 +198,8 @@
                         }
                     }
                 };
-                // 2. 配置
-                var option2 = {
-                    // 标题部分
-                    title: {
-                        text: '众志成城，抗击疫情',
-                        textStyle: {
-                            fontSize: 28
-                        },
-                        left: 'center', // 左右居中
-                        subtextStyle: {
-                            fontSize: 14
-                        }
-                    },
-                    // 设置地图及数据
-                    series: [{
-                        type: 'map',
-                        map: 'china', // 指定是中国地图
-                        data: currentArray, // 设置地图中的数据
-                        label: { // 控制默认显示省的名字
-                            show: true
-                        }
-                    }],
-                    tooltip: { // 鼠标悬浮提示
-                        enterable:true,
-                        triggerOn:'click',
-                        position:'right',
-                        formatter: function (params) { 
-                            var result = 
-                                '当前确诊：'+params.data.current+'<br/>'+
-                                '疑似确诊：'+params.data.suspect+'<br/>'+
-                                '治愈：'+params.data.cured+'<br/>'+
-                                '死亡：'+params.data.dead+'<br/>'+
-                                '<input type="submit" value="详情" onclick=window.open(\"http://www.baidu.com\")>';
-                            return result;
-                        }
-                    },
-                    visualMap: {
-                        type: 'piecewise',
-                        pieces: [
-                            { gt: 10000 }, // 大于10000
-                            { gt: 5000, lte: 10000 },
-                            { gt: 1000, lte: 5000 },
-                            { gt: 500, lte: 1000 },  // (900, 1500]
-                            { gt: 100, lte: 500 },  // (310, 1000]
-                            { gt: 10, lte: 100 },   // (200, 300]
-                            { gt: 0, lte: 10 },       // (0, 10]
-                        ],
-                        inRange: {
-                            color: ['#ffcfc3', '#eda595', '#d27b64', '#d5462a', '#a8352e', '#6a211d', '#562a2a']
-                        }
-                    }
-                };
-
+                //option.series.data= currentArray;
+                
                 // 3. 生成地图
                 myChart.setOption(option);
             });
