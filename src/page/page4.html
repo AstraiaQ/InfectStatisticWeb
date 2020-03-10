@@ -1,0 +1,38 @@
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../layui/css/layui.css">
+</head>
+
+<body>
+    <!-- 下面是导航栏-->
+    <ul class="layui-nav layui-bg-green" lay-filter="">
+        <li class="layui-nav-item"><a href="../index.html">疫情动态</a></li>
+        <li class="layui-nav-item"><a href="javascript:;">迁徙地图</a>
+            <dl class="layui-nav-child layui-bg-green">
+                <!-- 二级菜单 -->
+                <dd><a href="page2.html">热门迁入地</a></dd>
+                <dd><a href="page2.html">热门迁出地</a></dd>
+            </dl></li>
+        <li class="layui-nav-item"><a href="page3.html">全民热搜</a></li>
+        <li class="layui-nav-item  layui-this"><a href="page4.html">实时播报</a>
+        </li>
+    </ul>
+
+
+    <script src="layui/layui.js"></script>
+    <!-- element模块加载-->
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var element = layui.element;
+
+            //…
+        });
+    </script>
+</body>
+
+</html>
