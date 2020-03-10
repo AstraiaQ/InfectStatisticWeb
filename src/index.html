@@ -8,19 +8,19 @@
     <link rel="stylesheet" href="layui/css/layui.css">
 </head>
 
-<body class="layui-bg-black" >
+<body>
 
     <!-- 下面是导航栏-->
     <ul class="layui-nav layui-bg-green" lay-filter="">
-        <li class="layui-nav-item layui-this"><a href="">疫情动态</a></li>
+        <li class="layui-nav-item layui-this"><a href="index.html">疫情动态</a></li>
         <li class="layui-nav-item"><a href="javascript:;">迁徙地图</a>
             <dl class="layui-nav-child layui-bg-green">
                 <!-- 二级菜单 -->
-                <dd><a href="">热门迁入地</a></dd>
-                <dd><a href="">热门迁出地</a></dd>
+                <dd><a href="page/page2.html">热门迁入地</a></dd>
+                <dd><a href="page/page2.html">热门迁出地</a></dd>
             </dl></li>
-        <li class="layui-nav-item"><a href="">全民热搜</a></li>
-        <li class="layui-nav-item"><a href="">实时播报</a>
+        <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
+        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
         </li>
     </ul>
 
@@ -39,6 +39,24 @@
 
     <!-- 下面是地图区 -->
     <div class="layui-main" id="laotang" style="width: 800px; height:600px;"></div>
+
+    <!-- 地图选项卡-->
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+          <li class="layui-this">全国疫情总体数据</li>
+          <li>全国疫情新增趋势</li>
+          <li>全国累计治愈死亡</li>
+          <li>治愈率/死亡率</li>
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">内容1</div>
+          <div class="layui-tab-item">内容2</div>
+          <div class="layui-tab-item">内容3</div>
+          <div class="layui-tab-item">内容4</div>
+          <div class="layui-tab-item">内容5</div>
+        </div>
+      </div>
+
 
     <script src="layui/layui.js"></script>
 
@@ -118,7 +136,6 @@
                             fontSize: 28
                         },
                         left: 'center', // 左右居中
-                        subtext: '传智播客前端与移动开发教研部',
                         subtextStyle: {
                             fontSize: 14
                         }
