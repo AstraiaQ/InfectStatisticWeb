@@ -133,14 +133,24 @@
                         }
                     }],
                     tooltip: { // 鼠标悬浮提示
-                        formatter: function (params) { // 允许我们自定义悬浮提示的内容
-                            console.log(params);
+                        enterable:true,
+                        triggerOn:'click',
+                        position:'right',
+                        formatter: function (params) { 
                             // return 你需要提示的内容
-                            return `累计确诊：${params.data.value}<br/>
+                            /*return `${params.maker}累计确诊：${params.data.value}<br/>
                             当前确诊：${params.data.zuixin}<br/>
                             治愈：${params.data.zhiyu}<br/>
                             死亡：${params.data.siwang}<br/>
-                            `;
+                            <a href="www.baidu.com"> 详情 </a>
+                            `;*/
+                            
+                            var result = '累计确诊：'+params.data.value+'<br/>'+
+                                '当前确诊：'+params.data.zuixin+'<br/>'+
+                                '治愈：'+params.data.zhiyu+'<br/>'+
+                                '死亡：'+params.data.siwang+'<br/>'+
+                                '<input type="submit" value="详情" onclick=window.open(\"http://www.baidu.com\")>';
+                            return result;
                         }
                     },
                     visualMap: {
