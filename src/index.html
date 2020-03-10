@@ -39,8 +39,8 @@
     <br/><br/>
     <div class="layui-main" style="width: 800px; height:600px;">
         <!-- 下面是地图切换按钮 -->
-        <button type="button" class="layui-btn layui-btn-radius layui-btn-normal" >当前确诊</button>
-        <button type="button" class="layui-btn layui-btn-radius layui-btn-warm"  >累计确诊</button>
+        <button type="button" id="button1" class="layui-btn layui-btn-radius layui-btn-normal" onclick="click1()" >当前确诊</button>
+        <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm" onclick="click2()" >累计确诊</button>
         <!-- 下面是地图区 -->
         <div id="countryMap" style="width: 800px; height:600px;"></div>
     </div>
@@ -100,15 +100,28 @@
             });
         });
     </script>
-
+    
     <script>
-        // 获取真实的数据
 
+    </script>
+    
+    <script>
+        function click1(){
+            option.series[0].data=currentArray;
+            myChart.setOption(option);
+        }
+
+        function click2(){
+            option.series[0].data=totalArray;
+            myChart.setOption(option);
+        }
+        
+        // 获取真实的数据
         $.get("http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0",
             function (data, status) {
                 // console.log(data); // data就是获取到的数据，输出到控制台查看
-                var totalArray = [];
-                var currentArray = [];
+                totalArray = [];
+                currentArray = [];
                 // 处理数据，成地图需要的数据结构
                 data.newslist.forEach(item => {
                     // 循环的过程中，向空数组中加入所需的内容
@@ -153,10 +166,10 @@
 
                 // 下面开始做地图
                 // 1. 初始化
-                var myChart = echarts.init(document.getElementById('countryMap'));
+                myChart = echarts.init(document.getElementById('countryMap'));
                 
                 // 2. 配置
-                var option = {
+                option = {
                     // 标题部分
                     title: {
                         text: '众志成城，抗击疫情',
@@ -172,7 +185,7 @@
                     series: [{
                         type: 'map',
                         map: 'china', // 指定是中国地图
-                        data: totalArray, // 设置地图中的数据
+                        data: currentArray, // 设置地图中的数据
                         label: { // 控制默认显示省的名字
                             show: true
                         }
@@ -206,13 +219,12 @@
                         }
                     }
                 };
-                //option.series.data= currentArray;
-                
                 // 3. 生成地图
                 myChart.setOption(option);
             });
-
-
+        
+        
+        getData();
     </script>
 
     <!-- element模块加载-->
