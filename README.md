@@ -1,4 +1,2 @@
 # InfectStatisticWeb
 结对第二次作业——某次疫情统计可视化的实现
-
-在Eclipse中创建Dynamic Web Project，将src下的文件复制到JavaResources/src/下，将WebContent下的文件复制到你自己的WebContent下。
