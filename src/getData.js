@@ -91,7 +91,7 @@ var initTrendChart = function () {
                     fontSize: 12,
                     color: '#ebffa1'
                 },
-                left: '2%'
+                left: 'center',
             },
             tooltip: {
                 trigger: 'axis',
@@ -353,7 +353,7 @@ var initAddChart = function () {
                     fontSize: 12,
                     color: '#ebffa1'
                 },
-                left: '2%'
+                left: 'center',
             },
             tooltip: {
                 trigger: 'axis',
