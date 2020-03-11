@@ -1,11 +1,17 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="layui/css/layui.css">
+
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="echarts.min.js"></script>
+    <script type="text/javascript" src="china.js"></script>
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="getData.js"></script>
 </head>
 
 <body>
@@ -57,17 +63,21 @@
           <li>治愈率/死亡率</li>
         </ul>
         <div class="layui-tab-content">
-          <div class="layui-tab-item layui-show">内容1</div>
-          <div class="layui-tab-item">内容2</div>
+          <div class="layui-tab-item layui-show">
+              内容1
+            <!--增长趋势图-->
+            <div  id="trend-chart" style="height: 25rem"></div><hr/>
+          </div>
+          <div class="layui-tab-item">
+              内容2
+            <!--增长量-->
+            <div  id="add-chart" style="height: 25rem"></div><hr/>
+          </div>
           <div class="layui-tab-item">内容3</div>
           <div class="layui-tab-item">内容4</div>
           <div class="layui-tab-item">内容5</div>
         </div>
       </div>
-
-
-    <script src="layui/layui.js"></script>
-
 
     <script>
         layui.use('laytpl', function () {
@@ -82,10 +92,7 @@
     </script>
 
 
-    <!-- 引入所需的JS文件 -->
-    <script src="echarts.min.js"></script>
-    <script src="china.js"></script>
-    <script src="jquery-1.12.4.min.js"></script>
+    
 
     <!--轮播图部分-->
     <script>
@@ -101,9 +108,7 @@
         });
     </script>
     
-    <script>
-
-    </script>
+    
     
     <script>
         function click1(){
@@ -195,7 +200,7 @@
                         triggerOn:'click',
                         position:'right',
                         formatter: function (params) { 
-                            var result = '累计确诊：'+params.data.value+'<br/>'+
+                            var result = '确诊：'+params.data.value+'<br/>'+
                                 '疑似确诊：'+params.data.suspect+'<br/>'+
                                 '治愈：'+params.data.cured+'<br/>'+
                                 '死亡：'+params.data.dead+'<br/>'+
@@ -223,8 +228,6 @@
                 myChart.setOption(option);
             });
         
-        
-        getData();
     </script>
 
     <!-- element模块加载-->
@@ -236,7 +239,7 @@
             //…
         });
     </script>
-
+    
 </body>
 
 </html>
