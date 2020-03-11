@@ -49,6 +49,7 @@
         <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm" onclick="click2()" >累计确诊</button>
         <!-- 下面是地图区 -->
         <div id="countryMap" style="width: 800px; height:600px;"></div>
+
     </div>
     <br/><br/>
     
@@ -56,40 +57,50 @@
     
 
     <!-- 地图选项卡-->
-    <div class="layui-tab">
+    <div class="layui-tab" lay-filter="dataTab">
         <ul class="layui-tab-title">
-          <li class="layui-this">全国疫情总体数据</li>
-          <li>全国疫情新增趋势</li>
-          <li>全国累计治愈死亡</li>
-          <li>治愈率/死亡率</li>
+          <li class="layui-this" data-status="1">全国疫情总体数据</li>
+          <li data-status="2">全国疫情新增趋势</li>
+          <li data-status="3">治愈率/死亡率</li>
         </ul>
         <div class="layui-tab-content">
           <div class="layui-tab-item layui-show">
-              内容1
             <!--增长趋势图-->
-            <div  id="trend-chart" style="height: 25rem"></div><hr/>
+            <div id="trend-chart" style="height: 25rem"></div><hr/>
           </div>
           <div class="layui-tab-item">
-              内容2
             <!--增长量-->
-            <div  id="add-chart" style="height: 25rem"></div><hr/>
+            <div id="add-chart" style="height: 25rem"></div><hr/>
           </div>
-          <div class="layui-tab-item">内容3</div>
-          <div class="layui-tab-item">内容4</div>
-          <div class="layui-tab-item">内容5</div>
+          <div class="layui-tab-item">
+            <!--死亡率，治愈率趋势-->
+            <div id="rate-chart" style="height: 25rem"></div><hr/>
+          </div>
         </div>
       </div>
 
+      <!-- element模块加载-->
     <script>
-        layui.use('laytpl', function () {
-            var laytpl = layui.laytpl;
-
-            var getTpl = demo.innerHTML
-                , view = document.getElementById('view');
-            laytpl(getTpl).render(data, function (html) {
-                view.innerHTML = html;
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var $ = layui.jquery;
+            var element = layui.element;
+            //console.log($);
+            //element.tabChange('statisticTab', 'tab2'); 
+            //…
+            //element.init();
+            element.on('tab(dataTab)', function(data){
+                var status = $(this).attr('data-status');
+                switch (status) {
+                    case '1': {initTrendChart(); break;}
+                    case '2': {initAddChart(); break;}
+                    case '3': {initRateChart();break;}
+                    default: ;
+                }
             });
+           
         });
+        
     </script>
 
 
@@ -228,18 +239,13 @@
                 // 3. 生成地图
                 myChart.setOption(option);
             });
-        
+    
+    initTrendChart();
+
     </script>
 
-    <!-- element模块加载-->
-    <script>
-        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
-        layui.use('element', function () {
-            var element = layui.element;
-
-            //…
-        });
-    </script>
+    
+    
     
 </body>
 
