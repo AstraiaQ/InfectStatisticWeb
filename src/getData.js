@@ -85,7 +85,7 @@ var initTrendChart = function () {
         echartsOption  = {
             backgroundColor: '#394056',
             title: {
-                text: '全国新增确诊/治愈/死亡 趋势',
+                text: '全国累计确诊/治愈/死亡 趋势',
                 textStyle: {
                     fontWeight: 'normal',
                     fontSize: 12,
