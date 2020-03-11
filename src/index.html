@@ -24,7 +24,8 @@
                 <!-- 二级菜单 -->
                 <dd><a href="page/page2.html">热门迁入地</a></dd>
                 <dd><a href="page/page2.html">热门迁出地</a></dd>
-            </dl></li>
+            </dl>
+        </li>
         <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
         <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
         </li>
@@ -42,19 +43,19 @@
             <div>条目5</div>
         </div>
     </div>
-    <br/><br/>
+    <br /><br />
     <div class="layui-main" style="width: 800px; height:600px;">
         <!-- 下面是地图切换按钮 -->
-        <button type="button" id="button1" class="layui-btn layui-btn-radius layui-btn-normal" onclick="click1()" >当前确诊</button>
-        <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm" onclick="click2()" >累计确诊</button>
+        <button type="button" id="button1" class="layui-btn layui-btn-radius layui-btn-normal"
+            onclick="click1()">当前确诊</button>
+        <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm"
+            onclick="click2()">累计确诊</button>
         <!-- 下面是地图区 -->
         <div id="countryMap" style="width: 800px; height:600px;"></div>
 
     </div>
     <br/><br/>
-    
 
-    
 
     <!-- 地图选项卡-->
     <div class="layui-tab" lay-filter="dataTab">
@@ -77,7 +78,8 @@
             <div id="rate-chart" style="height: 25rem"></div><hr/>
           </div>
         </div>
-      </div>
+    </div>
+
 
       <!-- element模块加载-->
     <script>
@@ -100,11 +102,9 @@
             });
            
         });
-        
     </script>
 
 
-    
 
     <!--轮播图部分-->
     <script>
@@ -119,24 +119,25 @@
             });
         });
     </script>
-    
-    
-    
+
+
+
     <script>
-        function click1(){
-            option.series[0].data=currentArray;
+        var name;//省份名称
+        function click1() {
+            option.series[0].data = currentArray;
             myChart.setOption(option);
         }
 
-        function click2(){
-            option.series[0].data=totalArray;
+        function click2() {
+            option.series[0].data = totalArray;
             myChart.setOption(option);
         }
-        
+
         // 获取真实的数据
         $.get("http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0",
             function (data, status) {
-                // console.log(data); // data就是获取到的数据，输出到控制台查看
+                //console.log(data); // data就是获取到的数据，输出到控制台查看
                 totalArray = [];
                 currentArray = [];
                 // 处理数据，成地图需要的数据结构
@@ -165,18 +166,18 @@
                 // 循环结束之后，我们就得到了地图需要的数据了。数据是arr，但是还稍微有点问题
                 // 手动自行添加一个南海诸岛的数据
                 totalArray.push({
-                    name: '南海诸岛', 
+                    name: '南海诸岛',
                     confirmed: '未统计',
-                    current: '未统计', 
-                    suspect:'未统计',
+                    current: '未统计',
+                    suspect: '未统计',
                     cured: '未统计',
                     dead: '未统计'
                 });
                 currentArray.push({
-                    name: '南海诸岛', 
+                    name: '南海诸岛',
                     confirmed: '未统计',
-                    current: '未统计', 
-                    suspect:'未统计',
+                    current: '未统计',
+                    suspect: '未统计',
                     cured: '未统计',
                     dead: '未统计'
                 });
@@ -184,7 +185,7 @@
                 // 下面开始做地图
                 // 1. 初始化
                 myChart = echarts.init(document.getElementById('countryMap'));
-                
+
                 // 2. 配置
                 option = {
                     // 标题部分
@@ -193,7 +194,7 @@
                         textStyle: {
                             fontSize: 28
                         },
-                        left: 'center', 
+                        left: 'center',
                         subtextStyle: {
                             fontSize: 14
                         }
@@ -208,15 +209,16 @@
                         }
                     }],
                     tooltip: { // 悬浮气泡
-                        enterable:true,
-                        triggerOn:'click',
-                        position:'right',
-                        formatter: function (params) { 
-                            var result = '确诊：'+params.data.value+'<br/>'+
-                                '疑似确诊：'+params.data.suspect+'<br/>'+
-                                '治愈：'+params.data.cured+'<br/>'+
-                                '死亡：'+params.data.dead+'<br/>'+
-                                '<input type="submit" value="详情" onclick=window.open(\"http://www.baidu.com\")>';
+                        enterable: true,
+                        triggerOn: 'click',
+                        position: 'right',
+                        formatter: function (params) {
+                            name = params.data.name;
+                            var result = '确诊：' + params.data.value + '<br/>' +
+                                '疑似确诊：' + params.data.suspect + '<br/>' +
+                                '治愈：' + params.data.cured + '<br/>' +
+                                '死亡：' + params.data.dead + '<br/>' +
+                                '<input type="submit" value="详情" onclick="changePage()">';
                             return result;
                         }
                     },
@@ -238,15 +240,30 @@
                 };
                 // 3. 生成地图
                 myChart.setOption(option);
+                //console.log(totalArray);
             });
-    
+
+      function changePage() {
+            console.log(name);//省份名称
+            param=encodeURI(name);//编码一下
+            window.open("page2.html?param="+param);
+        }
+
+    </script>
+
+    <!-- element模块加载-->
+    <script>
+            //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+            layui.use('element', function () {
+                var element = layui.element;
+
+                //…
+            });
+
     initTrendChart();
 
     </script>
 
-    
-    
-    
 </body>
 
 </html>
