@@ -68,9 +68,30 @@
 
     <h1>省份选项栏</h1>
 
-
+    <!--地图-->
     <div class="layui-main" style="width: 800px; height:600px;">
         <div id="main" style="width: 800px; height:600px;"></div>
+    </div>
+
+    <!-- 地图选项卡-->
+    <div class="layui-tab layui-tab-card">
+        <ul class="layui-tab-title">
+            <li class="layui-this">全国疫情总体数据</li>
+            <li>全国疫情新增趋势</li>
+            <li>全国累计治愈死亡</li>
+            <li>治愈率/死亡率</li>
+        </ul>
+        <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <div id="container" style="height: 600px;width: 800px;"></div>
+            </div>
+            <div class="layui-tab-item">
+                内容2
+            </div>
+            <div class="layui-tab-item">内容3</div>
+            <div class="layui-tab-item">内容4</div>
+            <div class="layui-tab-item">内容5</div>
+        </div>
     </div>
 
 
@@ -81,8 +102,6 @@
 
 
 
-
-    
     <!--主地图-->
     <script type="text/javascript">
 
@@ -101,11 +120,11 @@
         console.log(param);
 
         //获取真实数据
-        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province="+param + "省",
+        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=" + param + "省",
             function (data, status) {
-                //console.log(data.results[0].cities);
+                console.log(data.results[0].cities);
                 totalArray = [];
-                data.results[0].cities.forEach(item=>{
+                data.results[0].cities.forEach(item => {
                     totalArray.push({
                         name: item.cityName, // 省份下的市级名字
                         value: item.confirmedCount, // 累计确诊
@@ -133,7 +152,7 @@
                     // 设置地图及数据
                     series: [{
                         type: 'map',
-                        map: 'china', // 指定是中国地图
+                        map: param, // 指定是中国地图
                         data: totalArray, // 设置地图中的数据
                         label: { // 控制默认显示省的名字
                             show: true
@@ -157,10 +176,118 @@
                 //console.log(totalArray);
             });
     </script>
+    <script type="text/javascript">
+
+        function getDay(day) {
+            var today = new Date();
+            var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+            today.setTime(targetday_milliseconds); //注意，这行是关键代码
+            var tYear = today.getFullYear();
+            var tMonth = today.getMonth();
+            var tDate = today.getDate();
+            tMonth = doHandleMonth(tMonth + 1);
+            tDate = doHandleMonth(tDate);
+            return tYear + "-" + tMonth + "-" + tDate;
+        }
+        function doHandleMonth(month) {
+            var m = month;
+            if (month.toString().length == 1) {
+                m = "0" + month;
+            }
+            return m;
+        }
+        //console.log(getDay(0));//当日日期，1明日-1昨日
+        //todo
+        /*$.get("https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=" + param + "省",
+            function (data, status) {
+
+            });*/
 
 
 
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        option = {
+            title: {
+                text: '整体疫情趋势'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['累计确诊人数', '疑似感染人数', '治愈人数', '死亡人数', '重症病例人数']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '邮件营销',
+                    type: 'line',
+                    stack: '总量',
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: '联盟广告',
+                    type: 'line',
+                    stack: '总量',
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name: '视频广告',
+                    type: 'line',
+                    stack: '总量',
+                    data: [150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name: '直接访问',
+                    type: 'line',
+                    stack: '总量',
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: '搜索引擎',
+                    type: 'line',
+                    stack: '总量',
+                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+        };
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }
+    </script>
 
+
+
+    <!-- element模块加载-->
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var element = layui.element;
+
+            //…
+        });
+    </script>
 </body>
 
 </html>
