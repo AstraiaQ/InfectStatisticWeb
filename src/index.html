@@ -63,14 +63,21 @@
           <li>治愈率/死亡率</li>
         </ul>
         <div class="layui-tab-content">
-          <div class="layui-tab-item layui-show">内容1</div>
-          <div class="layui-tab-item">内容2</div>
+          <div class="layui-tab-item layui-show">
+              内容1
+            <!--增长趋势图-->
+            <div  id="trend-chart" style="height: 25rem"></div><hr/>
+          </div>
+          <div class="layui-tab-item">
+              内容2
+            <!--增长量-->
+            <div  id="add-chart" style="height: 25rem"></div><hr/>
+          </div>
           <div class="layui-tab-item">内容3</div>
           <div class="layui-tab-item">内容4</div>
           <div class="layui-tab-item">内容5</div>
         </div>
       </div>
-
 
     <script>
         layui.use('laytpl', function () {
@@ -232,27 +239,7 @@
             //…
         });
     </script>
-    <div>
-        <div style="height: 100%">
-        </div>
     
-        <hr/>
-    
-        <!--增长趋势图-->
-        <div  id="trend-chart" style="height: 25rem">
-    
-        </div>
-        <hr/>
-        <!--增长量-->
-        <div  id="add-chart" style="height: 25rem">
-    
-        </div>
-    
-    
-        <hr/>
-        <div class="items" >
-        </div>
-    </div>
 </body>
 
 </html>
