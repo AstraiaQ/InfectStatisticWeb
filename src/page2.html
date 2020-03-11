@@ -6,6 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="layui/css/layui.css">
+
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="echarts.min.js"></script>
+    <script type="text/javascript" src="china.js"></script>
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
 </head>
 
 <body>
@@ -27,8 +32,7 @@
 </body>
 
 <script>
-$.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=湖北省",function(data){
-    alert("Data: " + data);
+$.get("http://wuliang.art/ncov/dnalysis/ncovMaps",function(data){
     });
 </script>
 

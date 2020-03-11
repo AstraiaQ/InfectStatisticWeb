@@ -6,6 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="layui/css/layui.css">
+
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="echarts.min.js"></script>
+    <script type="text/javascript" src="china.js"></script>
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    
 </head>
 
 <body>
@@ -66,9 +72,6 @@
       </div>
 
 
-    <script src="layui/layui.js"></script>
-
-
     <script>
         layui.use('laytpl', function () {
             var laytpl = layui.laytpl;
@@ -82,10 +85,7 @@
     </script>
 
 
-    <!-- 引入所需的JS文件 -->
-    <script src="echarts.min.js"></script>
-    <script src="china.js"></script>
-    <script src="jquery-1.12.4.min.js"></script>
+    
 
     <!--轮播图部分-->
     <script>
@@ -101,9 +101,7 @@
         });
     </script>
     
-    <script>
-
-    </script>
+    
     
     <script>
         function click1(){
@@ -223,8 +221,6 @@
                 myChart.setOption(option);
             });
         
-        
-        getData();
     </script>
 
     <!-- element模块加载-->
