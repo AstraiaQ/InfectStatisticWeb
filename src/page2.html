@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+</head>
+
+<body>
+    <!-- 下面是导航栏-->
+    <ul class="layui-nav layui-bg-green" lay-filter="">
+        <li class="layui-nav-item layui-this"><a href="index.html">疫情动态</a></li>
+        <li class="layui-nav-item"><a href="javascript:;">迁徙地图</a>
+            <dl class="layui-nav-child layui-bg-green">
+                <!-- 二级菜单 -->
+                <dd><a href="page/page2.html">热门迁入地</a></dd>
+                <dd><a href="page/page2.html">热门迁出地</a></dd>
+            </dl></li>
+        <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
+        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
+        </li>
+    </ul>
+
+    
+</body>
+
+<script>
+$.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=湖北省",function(data){
+    alert("Data: " + data);
+    });
+</script>
+
