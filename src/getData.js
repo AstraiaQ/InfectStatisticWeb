@@ -7,6 +7,42 @@ function toPercent(point){
     return str;
 }
 
+var initCoreData = function (province) {
+
+    $.ajax({
+        url: dataUrl + 'api/overall?latest=1',
+        type: 'get',
+        success: function (res) {
+            if (res.success === true) {
+                var data = res.results[0];
+                var dataTime = new Date(data.updateTime);
+                var showTime = [dataTime.getFullYear(), dataTime.getMonth() + 1, ("0" + dataTime.getDate()).slice(-2)].join('/');
+               
+                var html = 
+                    '<div class="confirmData">'+data.confirmedCount+'</div>' +
+                    '<div class="totalConfirmData">'+data.curedCount+'</div>'+
+                    '<div class="totalCuredData">'+data.curedCount+'</div>' +
+                    '<div class="totalDeadData">'+data.deadCount+'</div><br/><br/><br/>' +
+                    '<div class="timeStyle">更新时间：'+showTime+'</div>';
+                    
+                $(".core-data").html(html);
+
+                return;
+            }
+            alert("获取数据失败");
+
+        },
+        error: function (res) {
+            if (res.state() === "rejected" && !this.url.includes(dataUrlBackup)) {
+                this.url = this.url.replace(dataUrl, dataUrlBackup);
+                $.ajax(this);
+            }
+        }
+    })
+
+};
+
+
 var initTrendChart = function () {
     var orderTraceContainer = echarts.init(document.getElementById('trend-chart'));
     orderTraceContainer.showLoading({
@@ -41,8 +77,6 @@ var initTrendChart = function () {
                         dataNCoV[showTime]['suspect'] = suspectedCount;
                         dataNCoV[showTime]['cure'] = curedCount;
                         dataNCoV[showTime]['dead'] = deadCount;
-                        //dataNCov[showTime]['deadRate'] = confirmedCount;
-                        //dataNCoV[showTime]['cureRate'] = (curedCount/confirmedCount);
                     }
 
                 }
@@ -124,7 +158,7 @@ var initTrendChart = function () {
                 boundaryGap: false,
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 data: date
@@ -133,11 +167,11 @@ var initTrendChart = function () {
             yAxis: [{
                 type: 'value',
                 axisTick: {
-                    show: false
+                    show: true
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 axisLabel: {
@@ -399,7 +433,7 @@ var initAddChart = function () {
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 axisLabel: {
@@ -410,7 +444,7 @@ var initAddChart = function () {
                 },
                 splitLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 }
             }],
@@ -654,7 +688,7 @@ var initRateChart = function () {
                 boundaryGap: false,
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 data: date
@@ -667,7 +701,7 @@ var initRateChart = function () {
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 axisLabel: {
@@ -759,38 +793,5 @@ var initRateChart = function () {
     }
 };
 
-var initCoreData = function (province) {
-
-    $.ajax({
-        url: dataUrl + 'api/overall?latest=1',
-        type: 'get',
-        success: function (res) {
-            if (res.success === true) {
-                var data = res.results[0];
-
-
-                var html = ' 疫情数据:\n' +
-                    '        <div>' +
-                    '<span class="label label-warning data-confirmed">确诊</span>：'+data.confirmedCount+' &nbsp;&nbsp;&nbsp; ' +
-                    '<span class="label label-success data-cured">治愈</span>：'+data.curedCount+'  &nbsp;&nbsp;&nbsp; <span class="label label-danger data-dead">死亡</span>：'+data.deadCount+'</div>\n' +
-                    '  ';
-
-
-                $(".core-data").html(html);
-
-                return;
-            }
-            alert("获取数据失败");
-
-        },
-        error: function (res) {
-            if (res.state() === "rejected" && !this.url.includes(dataUrlBackup)) {
-                this.url = this.url.replace(dataUrl, dataUrlBackup);
-                $.ajax(this);
-            }
-        }
-    })
-
-};
 
 

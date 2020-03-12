@@ -4,14 +4,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>新冠肺炎疫情数据</title>
     <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/page1.css">
 
     <script type="text/javascript" src="layui/layui.js"></script>
     <script type="text/javascript" src="echarts.min.js"></script>
     <script type="text/javascript" src="china.js"></script>
     <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="getData.js"></script>
+    <script>
+        initCoreData();
+    </script>
 </head>
 
 <body>
@@ -27,7 +31,7 @@
             </dl>
         </li>
         <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
-        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
+        <li class="layui-nav-item"><a href="page4.html">谣言汇总</a>
         </li>
     </ul>
 
@@ -45,52 +49,78 @@
     </div>
     <br /><br />
     <div class="layui-main" style="width: 800px; height:600px;">
-        <!-- 下面是地图切换按钮 -->
-        <button type="button" id="button1" class="layui-btn layui-btn-radius layui-btn-normal"
-            onclick="click1()">当前确诊</button>
-        <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm"
-            onclick="click2()">累计确诊</button>
+        <!-- 下面是全国统计数据 -->
+        <div class ="roundedRectangle">
+            <br/>
+            <div class="confirm">现有确诊</div>
+            <div class="totalConfirm">累计确诊</div>
+            <div class="totalCured">累计治愈</div>
+            <div class="totalDead">累计死亡</div>
+            <br/><br/>
+            <div class="core-data"></div>
+        </div><br/><br/>
+        <!-- 下面是地图累计、现有确诊选项卡 -->
+        <div class="layui-tab" lay-filter="mapTab">
+            <ul class="layui-tab-title">
+            <li class="layui-this" data-status="1">全国现有确诊</li>
+            <li data-status="2">全国累计确诊</li>
+            </ul>
+            <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show"></div>
+            <div class="layui-tab-item"></div>
+            </div>
+        </div>
+        <br/><br/>
         <!-- 下面是地图区 -->
-        <div id="countryMap" style="width: 800px; height:600px;"></div>
-
-    </div>
-    <br/><br/>
-
-
-    <!-- 地图选项卡-->
-    <div class="layui-tab" lay-filter="dataTab">
-        <ul class="layui-tab-title">
-          <li class="layui-this" data-status="1">全国疫情总体数据</li>
-          <li data-status="2">全国疫情新增趋势</li>
-          <li data-status="3">治愈率/死亡率</li>
-        </ul>
-        <div class="layui-tab-content">
-          <div class="layui-tab-item layui-show">
-            <!--增长趋势图-->
-            <div id="trend-chart" style="height: 25rem"></div><hr/>
-          </div>
-          <div class="layui-tab-item">
-            <!--增长量-->
-            <div id="add-chart" style="height: 25rem"></div><hr/>
-          </div>
-          <div class="layui-tab-item">
-            <!--死亡率，治愈率趋势-->
-            <div id="rate-chart" style="height: 25rem"></div><hr/>
-          </div>
+        <div id="countryMap" style="width: 800px; height:600px;"></div><br/><br/>
+        <!-- 地图统计折线图选项卡-->
+        <div class="layui-tab" lay-filter="dataTab">
+            <ul class="layui-tab-title">
+            <li class="layui-this" data-status="1">全国疫情总体数据</li>
+            <li data-status="2">全国疫情新增趋势</li>
+            <li data-status="3">治愈率/死亡率</li>
+            </ul>
+            <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <!--增长趋势图-->
+                <div id="trend-chart" style="height: 25rem"></div><hr/>
+            </div>
+            <div class="layui-tab-item">
+                <!--增长量-->
+                <div id="add-chart" style="height: 25rem"></div><hr/>
+            </div>
+            <div class="layui-tab-item">
+                <!--死亡率，治愈率趋势-->
+                <div id="rate-chart" style="height: 25rem"></div><hr/>
+            </div>
+            </div>
         </div>
     </div>
+  
+    
 
-
-      <!-- element模块加载-->
+    <!-- element模块加载-->
     <script>
         //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
         layui.use('element', function () {
             var $ = layui.jquery;
             var element = layui.element;
-            //console.log($);
-            //element.tabChange('statisticTab', 'tab2'); 
-            //…
-            //element.init();
+            element.on('tab(mapTab)', function(data){
+                var status = $(this).attr('data-status');
+                switch (status) {
+                    case '1': {click1(); break;}
+                    case '2': {click2(); break;}
+                    default: ;
+                }
+            });
+           
+        });
+    </script>
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var $ = layui.jquery;
+            var element = layui.element;
             element.on('tab(dataTab)', function(data){
                 var status = $(this).attr('data-status');
                 switch (status) {
@@ -128,7 +158,6 @@
             option.series[0].data = currentArray;
             myChart.setOption(option);
         }
-
         function click2() {
             option.series[0].data = totalArray;
             myChart.setOption(option);
@@ -190,7 +219,7 @@
                 option = {
                     // 标题部分
                     title: {
-                        text: '众志成城，抗击疫情',
+                        text: '共同战疫',
                         textStyle: {
                             fontSize: 28
                         },
