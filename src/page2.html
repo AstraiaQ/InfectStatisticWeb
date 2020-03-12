@@ -11,7 +11,7 @@
     <script type="text/javascript" src="echarts.min.js"></script>
     <script type="text/javascript" src="china.js"></script>
     <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
-
+    <script type="text/javascript" src="getProvinceData.js"></script>
 
     <script type="text/JavaScript" src="province/anhui.js"></script>
     <script type="text/JavaScript" src="province/aomen.js"></script>
@@ -67,59 +67,43 @@
         </li>
     </ul>
 
-    <h1>省份选项栏</h1>
-
     <!--地图-->
     <div class="layui-main" style="width: 800px; height:600px;">
         <div id="main" style="width: 800px; height:600px;"></div>
     </div>
 
+
     <!-- 地图选项卡-->
-    <div class="layui-tab layui-tab-card">
+    <div class="layui-tab" lay-filter="dataTab">
         <ul class="layui-tab-title">
-            <li class="layui-this">全国疫情总体数据</li>
-            <li>全国疫情新增趋势</li>
-            <li>全国累计治愈死亡</li>
-            <li>治愈率/死亡率</li>
+          <li class="layui-this" data-status="1"><div id=view1></div></li>
+            <li data-status="2"><div id=view2></div></li>
+            <li data-status="3"><div id=view3></div></li>
         </ul>
         <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <div id="container" style="height: 600px;width: 800px;"></div>
-            </div>
-            <div class="layui-tab-item">
-                内容2
-            </div>
-            <div class="layui-tab-item">内容3</div>
-            <div class="layui-tab-item">内容4</div>
-            <div class="layui-tab-item">内容5</div>
+          <div class="layui-tab-item layui-show">
+            <!--增长趋势图-->
+            <div id="trend-chart" style="height: 25rem"></div><hr/>
+          </div>
+          <div class="layui-tab-item">
+            <!--增长量-->
+            <div id="add-chart" style="height: 25rem"></div><hr/>
+          </div>
+          <div class="layui-tab-item">
+            <!--死亡率，治愈率趋势-->
+            <div id="rate-chart" style="height: 25rem"></div><hr/>
+          </div>
         </div>
     </div>
-
-
-
-
-
-
+    <script>function paramm1(){view1.innerText = param+"疫情总体数据";}paramm1();</script>
+    <script>function paramm2(){view2.innerText = param+"疫情新增趋势";}paramm2();</script>
+    <script>function paramm3(){view3.innerText = param+"治愈率/死亡率";}paramm3();</script>
 
 
 
 
     <!--主地图-->
     <script type="text/javascript">
-
-        //获取参数方法
-        function GetUrlParam(name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = encodeURI(window.location.search).substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        }
-        //使用获取参数方法
-        //var id= GetUrlParam("id");
-        //var name = decodeURI(GetUrlParam("name"));
-        //console.log("id:"+id+"  name:"+name);
-
-        var param = decodeURI(GetUrlParam("param"));
-        console.log(param);
 
         //获取真实数据
         $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=" + param + "省",
@@ -181,7 +165,31 @@
     </script>
     <script type="text/javascript">
 
-        function getDay(day) {
+
+        /*jQuery.support.cors = true;
+        function login() {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET", //方法类型
+                crossDomain: true,
+                dataType: "jsonp", //预期服务器返回的数据类型
+                url: "https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=湖南省", //url
+                data: $('#form1').serialize(),
+                success: function (result) {
+                    console.log(result); //打印服务端返回的数据(调试用)
+                    if (200 == result.resultCode) {
+                        alert("SUCCESS");
+                    };
+                },
+                error: function () {
+                    alert("异常！");
+                }
+            });
+        }
+
+        login();*/
+
+        /*function getDay(day) {
             var today = new Date();
             var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
             today.setTime(targetday_milliseconds); //注意，这行是关键代码
@@ -201,10 +209,10 @@
         }
         //console.log(getDay(0));//当日日期，1明日-1昨日
         //todo
-        /*$.get("https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=" + param + "省",
-            function (data, status) {
-
-            });*/
+        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=湖南省",
+        function (data, status) {
+        console.log(data);
+        });
 
 
 
@@ -277,8 +285,23 @@
         ;
         if (option && typeof option === "object") {
             myChart.setOption(option, true);
-        }
+        }*/
     </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -286,10 +309,25 @@
     <script>
         //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
         layui.use('element', function () {
+            var $ = layui.jquery;
             var element = layui.element;
-
+            //console.log($);
+            //element.tabChange('statisticTab', 'tab2'); 
             //…
+            //element.init();
+            element.on('tab(dataTab)', function(data){
+                var status = $(this).attr('data-status');
+                switch (status) {
+                    case '1': {initTrendChart(); break;}
+                    case '2': {initAddChart(); break;}
+                    case '3': {initRateChart();break;}
+                    default: ;
+                }
+            });
+           
         });
+
+        initTrendChart();//偷偷加载第一个图表
     </script>
 </body>
 
