@@ -13,6 +13,9 @@
     <script type="text/javascript" src="china.js"></script>
     <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
     <script type="text/javascript" src="getData.js"></script>
+    <script>
+        initCoreData();
+    </script>
 </head>
 
 <body>
@@ -54,10 +57,7 @@
             <div class="totalCured">累计治愈</div>
             <div class="totalDead">累计死亡</div>
             <br/><br/>
-            <div class="confirm"></div>
-            <div class="totalConfirm"></div>
-            <div class="totalCured"></div>
-            <div class="totalDead"></div>
+            <div class="core-data"></div>
         </div><br/><br/>
         <!-- 下面是地图累计、现有确诊选项卡 -->
         <div class="layui-tab" lay-filter="mapTab">

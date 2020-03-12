@@ -42,5 +42,41 @@
     letter-spacing:2px;
     display: inline;
 }
+.confirmData{
+    width:20%;
+    padding-left: 8%;
+    padding-top: 5%;
+    padding-right:4%;
+    font-size: 20px;
+    color: #FF6A57;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalConfirmData{
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right:4%;
+    font-size: 20px;
+    color:#E83132;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalCuredData{
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right:4%;
+    font-size: 20px;
+    color: #10AEB5;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalDeadData{
+    padding-left: 12%;
+    padding-top: 5%;
+    font-size: 20px;
+    color: #4D5054;
+    letter-spacing:2px;
+    display: inline;
+}
  
  

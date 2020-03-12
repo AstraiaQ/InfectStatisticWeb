@@ -767,15 +767,11 @@ var initCoreData = function (province) {
         success: function (res) {
             if (res.success === true) {
                 var data = res.results[0];
-
-
-                var html = ' 疫情数据:\n' +
-                    '        <div>' +
-                    '<span class="label label-warning data-confirmed">确诊</span>：'+data.confirmedCount+' &nbsp;&nbsp;&nbsp; ' +
-                    '<span class="label label-success data-cured">治愈</span>：'+data.curedCount+'  &nbsp;&nbsp;&nbsp; <span class="label label-danger data-dead">死亡</span>：'+data.deadCount+'</div>\n' +
-                    '  ';
-
-
+                var html = 
+                    '<div class="confirmData">'+data.confirmedCount+'</div>' +
+                    '<div class="totalConfirmData">'+data.curedCount+'</div>'+
+                    '<div class="totalCuredData">'+data.curedCount+'</div>' +
+                    '<div class="totalDeadData">'+data.deadCount+'</div>';
                 $(".core-data").html(html);
 
                 return;
