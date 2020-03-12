@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>新冠肺炎疫情数据</title>
     <link rel="stylesheet" href="layui/css/layui.css">
     <link rel="stylesheet" href="css/page1.css">
 
@@ -31,7 +31,7 @@
             </dl>
         </li>
         <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
-        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
+        <li class="layui-nav-item"><a href="page4.html">谣言汇总</a>
         </li>
     </ul>
 
@@ -219,7 +219,7 @@
                 option = {
                     // 标题部分
                     title: {
-                        text: '众志成城，抗击疫情',
+                        text: '共同战疫',
                         textStyle: {
                             fontSize: 28
                         },
@@ -247,7 +247,7 @@
                                 '疑似确诊：' + params.data.suspect + '<br/>' +
                                 '治愈：' + params.data.cured + '<br/>' +
                                 '死亡：' + params.data.dead + '<br/>' +
-                                '<input type="submit" value="详情" onclick="changePage()">';
+                                '<input style="background: transparent;width: 70px;color:rgb(48, 212, 212);" type="submit" value="详情" onclick="changePage()">';
                             return result;
                         }
                     },

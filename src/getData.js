@@ -158,7 +158,7 @@ var initTrendChart = function () {
                 boundaryGap: false,
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 data: date
@@ -167,11 +167,11 @@ var initTrendChart = function () {
             yAxis: [{
                 type: 'value',
                 axisTick: {
-                    show: false
+                    show: true
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 axisLabel: {
@@ -433,7 +433,7 @@ var initAddChart = function () {
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 axisLabel: {
@@ -444,7 +444,7 @@ var initAddChart = function () {
                 },
                 splitLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 }
             }],
@@ -688,7 +688,7 @@ var initRateChart = function () {
                 boundaryGap: false,
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 data: date
@@ -701,7 +701,7 @@ var initRateChart = function () {
                 },
                 axisLine: {
                     lineStyle: {
-                        color: '#57617B'
+                        color: '#FFFFFF'
                     }
                 },
                 axisLabel: {
