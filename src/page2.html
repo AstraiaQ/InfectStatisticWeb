@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="echarts.min.js"></script>
+    <script type="text/javascript" src="china.js"></script>
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="getProvinceData.js"></script>
+
+    <script type="text/JavaScript" src="province/anhui.js"></script>
+    <script type="text/JavaScript" src="province/aomen.js"></script>
+    <script type="text/JavaScript" src="province/beijing.js"></script>
+    <script type="text/JavaScript" src="province/chongqing.js"></script>
+    <script type="text/JavaScript" src="province/fujian.js"></script>
+    <script type="text/JavaScript" src="province/gansu.js"></script>
+    <script type="text/JavaScript" src="province/guangdong.js"></script>
+    <script type="text/JavaScript" src="province/guangxi.js"></script>
+    <script type="text/JavaScript" src="province/guizhou.js"></script>
+    <script type="text/JavaScript" src="province/hainan.js"></script>
+    <script type="text/JavaScript" src="province/hebei.js"></script>
+    <script type="text/JavaScript" src="province/heilongjiang.js"></script>
+    <script type="text/JavaScript" src="province/henan.js"></script>
+    <script type="text/JavaScript" src="province/hubei.js"></script>
+    <script type="text/JavaScript" src="province/hunan.js"></script>
+    <script type="text/JavaScript" src="province/jiangsu.js"></script>
+    <script type="text/JavaScript" src="province/jiangxi.js"></script>
+    <script type="text/JavaScript" src="province/jilin.js"></script>
+    <script type="text/JavaScript" src="province/liaoning.js"></script>
+    <script type="text/JavaScript" src="province/neimenggu.js"></script>
+    <script type="text/JavaScript" src="province/ningxia.js"></script>
+    <script type="text/JavaScript" src="province/qinghai.js"></script>
+    <script type="text/JavaScript" src="province/shandong.js"></script>
+    <script type="text/JavaScript" src="province/shanghai.js"></script>
+    <script type="text/JavaScript" src="province/shanxi.js"></script>
+    <script type="text/JavaScript" src="province/shanxi1.js"></script>
+    <script type="text/JavaScript" src="province/sichuan.js"></script>
+    <script type="text/JavaScript" src="province/taiwan.js"></script>
+    <script type="text/JavaScript" src="province/tianjin.js"></script>
+    <script type="text/JavaScript" src="province/xianggang.js"></script>
+    <script type="text/JavaScript" src="province/xinjiang.js"></script>
+    <script type="text/JavaScript" src="province/xizang.js"></script>
+    <script type="text/JavaScript" src="province/yunnan.js"></script>
+    <script type="text/JavaScript" src="province/zhejiang.js"></script>
+
+
+</head>
+
+<body>
+    <!-- 下面是导航栏-->
+    <ul class="layui-nav layui-bg-green" lay-filter="">
+        <li class="layui-nav-item layui-this"><a href="index.html">疫情动态</a></li>
+        <li class="layui-nav-item"><a href="javascript:;">迁徙地图</a>
+            <dl class="layui-nav-child layui-bg-green">
+                <!-- 二级菜单 -->
+                <dd><a href="page/page2.html">热门迁入地</a></dd>
+                <dd><a href="page/page2.html">热门迁出地</a></dd>
+            </dl>
+        </li>
+        <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
+        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
+        </li>
+    </ul>
+
+    <!--地图-->
+    <div class="layui-main" style="width: 800px; height:600px;">
+        <div id="main" style="width: 800px; height:600px;"></div>
+    </div>
+
+
+    <!-- 地图选项卡-->
+    <div class="layui-tab" lay-filter="dataTab">
+        <ul class="layui-tab-title">
+          <li class="layui-this" data-status="1"><div id=view1></div></li>
+            <li data-status="2"><div id=view2></div></li>
+            <li data-status="3"><div id=view3></div></li>
+        </ul>
+        <div class="layui-tab-content">
+          <div class="layui-tab-item layui-show">
+            <!--增长趋势图-->
+            <div id="trend-chart" style="height: 25rem"></div><hr/>
+          </div>
+          <div class="layui-tab-item">
+            <!--增长量-->
+            <div id="add-chart" style="height: 25rem"></div><hr/>
+          </div>
+          <div class="layui-tab-item">
+            <!--死亡率，治愈率趋势-->
+            <div id="rate-chart" style="height: 25rem"></div><hr/>
+          </div>
+        </div>
+    </div>
+    <script>function paramm1(){view1.innerText = param+"疫情总体数据";}paramm1();</script>
+    <script>function paramm2(){view2.innerText = param+"疫情新增趋势";}paramm2();</script>
+    <script>function paramm3(){view3.innerText = param+"治愈率/死亡率";}paramm3();</script>
+
+
+
+
+    <!--主地图-->
+    <script type="text/javascript">
+
+        //获取真实数据
+        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=" + param + "省",
+            function (data, status) {
+                console.log(data.results[0].cities);
+                totalArray = [];
+                data.results[0].cities.forEach(item => {
+                    totalArray.push({
+                        name: item.cityName, // 省份下的市级名字
+                        value: item.confirmedCount, // 累计确诊
+                        current: item.currentConfirmedCount, // 当前确诊
+                        suspect: item.suspectedCount,//疑似确诊
+                        cured: item.curedCount,//治愈人数
+                        dead: item.deadCount//死亡人数
+                    });
+                });
+                console.log(totalArray[0]);
+                //开始作图，初始化
+                var chart = echarts.init(document.getElementById('main'));
+                //配置
+                var option = {
+                    // 标题部分
+                    title: {
+                        text: param,
+                        textStyle: {
+                            fontSize: 28
+                        },
+                        left: 'center',
+                        subtextStyle: {
+                            fontSize: 14
+                        }
+                    },
+                    // 设置地图及数据
+                    series: [{
+                        type: 'map',
+                        map: param, // 指定是中国地图
+                        data: totalArray, // 设置地图中的数据
+                        label: { // 控制默认显示省的名字
+                            show: true
+                        }
+                    }],
+                    tooltip: { // 悬浮气泡
+                        enterable: true,
+                        triggerOn: 'click',
+                        position: 'right',
+                        formatter: function (params) {
+                            var result = '确诊：' + params.data.value + '<br/>' +
+                                '疑似确诊：' + params.data.suspect + '<br/>' +
+                                '治愈：' + params.data.cured + '<br/>' +
+                                '死亡：' + params.data.dead + '<br/>'
+                            return result;
+                        }
+                    },
+                };
+                // 生成地图
+                chart.setOption(option);
+                //console.log(totalArray);
+            });
+    </script>
+    <script type="text/javascript">
+
+
+        /*jQuery.support.cors = true;
+        function login() {
+            $.ajax({
+                //几个参数需要注意一下
+                type: "GET", //方法类型
+                crossDomain: true,
+                dataType: "jsonp", //预期服务器返回的数据类型
+                url: "https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=湖南省", //url
+                data: $('#form1').serialize(),
+                success: function (result) {
+                    console.log(result); //打印服务端返回的数据(调试用)
+                    if (200 == result.resultCode) {
+                        alert("SUCCESS");
+                    };
+                },
+                error: function () {
+                    alert("异常！");
+                }
+            });
+        }
+
+        login();*/
+
+        /*function getDay(day) {
+            var today = new Date();
+            var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
+            today.setTime(targetday_milliseconds); //注意，这行是关键代码
+            var tYear = today.getFullYear();
+            var tMonth = today.getMonth();
+            var tDate = today.getDate();
+            tMonth = doHandleMonth(tMonth + 1);
+            tDate = doHandleMonth(tDate);
+            return tYear + "-" + tMonth + "-" + tDate;
+        }
+        function doHandleMonth(month) {
+            var m = month;
+            if (month.toString().length == 1) {
+                m = "0" + month;
+            }
+            return m;
+        }
+        //console.log(getDay(0));//当日日期，1明日-1昨日
+        //todo
+        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=湖南省",
+        function (data, status) {
+        console.log(data);
+        });
+
+
+
+        var dom = document.getElementById("container");
+        var myChart = echarts.init(dom);
+        var app = {};
+        option = null;
+        option = {
+            title: {
+                text: '整体疫情趋势'
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['累计确诊人数', '疑似感染人数', '治愈人数', '死亡人数', '重症病例人数']
+            },
+            grid: {
+                left: '3%',
+                right: '4%',
+                bottom: '3%',
+                containLabel: true
+            },
+            toolbox: {
+                feature: {
+                    saveAsImage: {}
+                }
+            },
+            xAxis: {
+                type: 'category',
+                boundaryGap: false,
+                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
+            },
+            yAxis: {
+                type: 'value'
+            },
+            series: [
+                {
+                    name: '邮件营销',
+                    type: 'line',
+                    stack: '总量',
+                    data: [120, 132, 101, 134, 90, 230, 210]
+                },
+                {
+                    name: '联盟广告',
+                    type: 'line',
+                    stack: '总量',
+                    data: [220, 182, 191, 234, 290, 330, 310]
+                },
+                {
+                    name: '视频广告',
+                    type: 'line',
+                    stack: '总量',
+                    data: [150, 232, 201, 154, 190, 330, 410]
+                },
+                {
+                    name: '直接访问',
+                    type: 'line',
+                    stack: '总量',
+                    data: [320, 332, 301, 334, 390, 330, 320]
+                },
+                {
+                    name: '搜索引擎',
+                    type: 'line',
+                    stack: '总量',
+                    data: [820, 932, 901, 934, 1290, 1330, 1320]
+                }
+            ]
+        };
+        ;
+        if (option && typeof option === "object") {
+            myChart.setOption(option, true);
+        }*/
+    </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <!-- element模块加载-->
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var $ = layui.jquery;
+            var element = layui.element;
+            //console.log($);
+            //element.tabChange('statisticTab', 'tab2'); 
+            //…
+            //element.init();
+            element.on('tab(dataTab)', function(data){
+                var status = $(this).attr('data-status');
+                switch (status) {
+                    case '1': {initTrendChart(); break;}
+                    case '2': {initAddChart(); break;}
+                    case '3': {initRateChart();break;}
+                    default: ;
+                }
+            });
+           
+        });
+
+        initTrendChart();//偷偷加载第一个图表
+    </script>
+</body>
+
+</html>

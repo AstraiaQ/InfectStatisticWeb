@@ -1,11 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>新冠肺炎疫情数据</title>
     <link rel="stylesheet" href="layui/css/layui.css">
+    <link rel="stylesheet" href="css/page1.css">
+
+    <script type="text/javascript" src="layui/layui.js"></script>
+    <script type="text/javascript" src="echarts.min.js"></script>
+    <script type="text/javascript" src="china.js"></script>
+    <script type="text/javascript" src="jquery-1.12.4.min.js"></script>
+    <script type="text/javascript" src="getData.js"></script>
+    <script>
+        initCoreData();
+    </script>
 </head>
 
 <body>
@@ -18,9 +28,10 @@
                 <!-- 二级菜单 -->
                 <dd><a href="page/page2.html">热门迁入地</a></dd>
                 <dd><a href="page/page2.html">热门迁出地</a></dd>
-            </dl></li>
+            </dl>
+        </li>
         <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
-        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
+        <li class="layui-nav-item"><a href="page4.html">谣言汇总</a>
         </li>
     </ul>
 
@@ -36,48 +47,94 @@
             <div>条目5</div>
         </div>
     </div>
-
-    <!-- 下面是地图区 -->
-    <div class="layui-main" id="laotang" style="width: 800px; height:600px;"></div>
-
-    <!-- 地图选项卡-->
-    <div class="layui-tab">
-        <ul class="layui-tab-title">
-          <li class="layui-this">全国疫情总体数据</li>
-          <li>全国疫情新增趋势</li>
-          <li>全国累计治愈死亡</li>
-          <li>治愈率/死亡率</li>
-        </ul>
-        <div class="layui-tab-content">
-          <div class="layui-tab-item layui-show">内容1</div>
-          <div class="layui-tab-item">内容2</div>
-          <div class="layui-tab-item">内容3</div>
-          <div class="layui-tab-item">内容4</div>
-          <div class="layui-tab-item">内容5</div>
+    <br /><br />
+    <div class="layui-main" style="width: 800px; height:600px;">
+        <!-- 下面是全国统计数据 -->
+        <div class ="roundedRectangle">
+            <br/>
+            <div class="confirm">现有确诊</div>
+            <div class="totalConfirm">累计确诊</div>
+            <div class="totalCured">累计治愈</div>
+            <div class="totalDead">累计死亡</div>
+            <br/><br/>
+            <div class="core-data"></div>
+        </div><br/><br/>
+        <!-- 下面是地图累计、现有确诊选项卡 -->
+        <div class="layui-tab" lay-filter="mapTab">
+            <ul class="layui-tab-title">
+            <li class="layui-this" data-status="1">全国现有确诊</li>
+            <li data-status="2">全国累计确诊</li>
+            </ul>
+            <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show"></div>
+            <div class="layui-tab-item"></div>
+            </div>
         </div>
-      </div>
+        <br/><br/>
+        <!-- 下面是地图区 -->
+        <div id="countryMap" style="width: 800px; height:600px;"></div><br/><br/>
+        <!-- 地图统计折线图选项卡-->
+        <div class="layui-tab" lay-filter="dataTab">
+            <ul class="layui-tab-title">
+            <li class="layui-this" data-status="1">全国疫情总体数据</li>
+            <li data-status="2">全国疫情新增趋势</li>
+            <li data-status="3">治愈率/死亡率</li>
+            </ul>
+            <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <!--增长趋势图-->
+                <div id="trend-chart" style="height: 25rem"></div><hr/>
+            </div>
+            <div class="layui-tab-item">
+                <!--增长量-->
+                <div id="add-chart" style="height: 25rem"></div><hr/>
+            </div>
+            <div class="layui-tab-item">
+                <!--死亡率，治愈率趋势-->
+                <div id="rate-chart" style="height: 25rem"></div><hr/>
+            </div>
+            </div>
+        </div>
+    </div>
+  
+    
 
-
-    <script src="layui/layui.js"></script>
-
-
+    <!-- element模块加载-->
     <script>
-        layui.use('laytpl', function () {
-            var laytpl = layui.laytpl;
-
-            var getTpl = demo.innerHTML
-                , view = document.getElementById('view');
-            laytpl(getTpl).render(data, function (html) {
-                view.innerHTML = html;
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var $ = layui.jquery;
+            var element = layui.element;
+            element.on('tab(mapTab)', function(data){
+                var status = $(this).attr('data-status');
+                switch (status) {
+                    case '1': {click1(); break;}
+                    case '2': {click2(); break;}
+                    default: ;
+                }
             });
+           
+        });
+    </script>
+    <script>
+        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+        layui.use('element', function () {
+            var $ = layui.jquery;
+            var element = layui.element;
+            element.on('tab(dataTab)', function(data){
+                var status = $(this).attr('data-status');
+                switch (status) {
+                    case '1': {initTrendChart(); break;}
+                    case '2': {initAddChart(); break;}
+                    case '3': {initRateChart();break;}
+                    default: ;
+                }
+            });
+           
         });
     </script>
 
 
-    <!-- 引入所需的JS文件 -->
-    <script src="echarts.min.js"></script>
-    <script src="china.js"></script>
-    <script src="jquery-1.12.4.min.js"></script>
 
     <!--轮播图部分-->
     <script>
@@ -93,49 +150,80 @@
         });
     </script>
 
-    <script>
-        // 获取真实的数据
 
+
+    <script>
+        var name;//省份名称
+        function click1() {
+            option.series[0].data = currentArray;
+            myChart.setOption(option);
+        }
+        function click2() {
+            option.series[0].data = totalArray;
+            myChart.setOption(option);
+        }
+
+        // 获取真实的数据
         $.get("http://api.tianapi.com/txapi/ncovcity/index?key=5d4fb67d8bd16c1fd371311e334a4bd0",
             function (data, status) {
-                // console.log(data); // data就是获取到的数据，输出到控制台查看
-                var arr = [];
+                //console.log(data); // data就是获取到的数据，输出到控制台查看
+                totalArray = [];
+                currentArray = [];
                 // 处理数据，成地图需要的数据结构
                 data.newslist.forEach(item => {
                     // 循环的过程中，向空数组中加入所需的内容
-                    arr.push({
-                        name: item.provinceShortName, // name固定
-                        value: item.confirmedCount, // value固定
-                        zuixin: item.currentConfirmedCount, // 当前确诊
-                        zhiyu: item.curedCount,
-                        siwang: item.deadCount
+                    totalArray.push({
+                        name: item.provinceShortName, // 省份名字
+                        value: item.confirmedCount, // 累计确诊
+                        current: item.currentConfirmedCount, // 当前确诊
+                        suspect: item.suspectedCount,//疑似确诊
+                        cured: item.curedCount,//治愈人数
+                        dead: item.deadCount//死亡人数
+                    });
+                });
+                data.newslist.forEach(item => {
+                    // 循环的过程中，向空数组中加入所需的内容
+                    currentArray.push({
+                        name: item.provinceShortName, // 省份名字
+                        confirmed: item.confirmedCount, // 累计确诊
+                        value: item.currentConfirmedCount, // 当前确诊
+                        suspect: item.suspectedCount,//疑似确诊
+                        cured: item.curedCount,//治愈人数
+                        dead: item.deadCount//死亡人数
                     });
                 });
                 // 循环结束之后，我们就得到了地图需要的数据了。数据是arr，但是还稍微有点问题
                 // 手动自行添加一个南海诸岛的数据
-                arr.push({
-                    name: '南海诸岛', // name固定
-                    value: '未统计', // value固定
-                    zuixin: '未统计', // 当前确诊
-                    zhiyu: '未统计',
-                    siwang: '未统计'
+                totalArray.push({
+                    name: '南海诸岛',
+                    confirmed: '未统计',
+                    current: '未统计',
+                    suspect: '未统计',
+                    cured: '未统计',
+                    dead: '未统计'
                 });
-                // 到此为止，所有的数据全部处理好了。
-                console.log(arr);
+                currentArray.push({
+                    name: '南海诸岛',
+                    confirmed: '未统计',
+                    current: '未统计',
+                    suspect: '未统计',
+                    cured: '未统计',
+                    dead: '未统计'
+                });
 
                 // 下面开始做地图
                 // 1. 初始化
-                var myChart = echarts.init(document.getElementById('laotang'));
+                myChart = echarts.init(document.getElementById('countryMap'));
 
                 // 2. 配置
-                var option = {
+                option = {
                     // 标题部分
                     title: {
-                        text: '众志成城，抗击疫情',
+                        text: '共同战疫',
                         textStyle: {
                             fontSize: 28
                         },
-                        left: 'center', // 左右居中
+                        left: 'center',
                         subtextStyle: {
                             fontSize: 14
                         }
@@ -144,21 +232,22 @@
                     series: [{
                         type: 'map',
                         map: 'china', // 指定是中国地图
-                        data: arr, // 设置地图中的数据
+                        data: currentArray, // 设置地图中的数据
                         label: { // 控制默认显示省的名字
                             show: true
                         }
                     }],
-                    tooltip: { // 鼠标悬浮提示
-                        enterable:true,
-                        triggerOn:'click',
-                        position:'right',
-                        formatter: function (params) { 
-                            var result = '累计确诊：'+params.data.value+'<br/>'+
-                                '当前确诊：'+params.data.zuixin+'<br/>'+
-                                '治愈：'+params.data.zhiyu+'<br/>'+
-                                '死亡：'+params.data.siwang+'<br/>'+
-                                '<input type="submit" value="详情" onclick=window.open(\"http://www.baidu.com\")>';
+                    tooltip: { // 悬浮气泡
+                        enterable: true,
+                        triggerOn: 'click',
+                        position: 'right',
+                        formatter: function (params) {
+                            name = params.data.name;
+                            var result = '确诊：' + params.data.value + '<br/>' +
+                                '疑似确诊：' + params.data.suspect + '<br/>' +
+                                '治愈：' + params.data.cured + '<br/>' +
+                                '死亡：' + params.data.dead + '<br/>' +
+                                '<input style="background: transparent;width: 70px;color:rgb(48, 212, 212);" type="submit" value="详情" onclick="changePage()">';
                             return result;
                         }
                     },
@@ -178,24 +267,31 @@
                         }
                     }
                 };
-
                 // 3. 生成地图
                 myChart.setOption(option);
+                //console.log(totalArray);
             });
 
+      function changePage() {
+            console.log(name);//省份名称
+            param=encodeURI(name);//编码一下
+            window.open("page2.html?param="+param);
+        }
 
     </script>
 
     <!-- element模块加载-->
     <script>
-        //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
-        layui.use('element', function () {
-            var element = layui.element;
+            //注意：折叠面板 依赖 element 模块，否则无法进行功能性操作
+            layui.use('element', function () {
+                var element = layui.element;
 
-            //…
-        });
+                //…
+            });
+
+    initTrendChart();
+
     </script>
-
 </body>
 
 </html>

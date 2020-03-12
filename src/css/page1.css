@@ -1,0 +1,90 @@
+.roundedRectangle{
+    height: 150px; 
+    width: 77%;
+    margin: auto;
+    background: #9BD1FA;//背景色
+    border-width: 10px;	//边缘的宽度，如果要分别设置可以这样：border-width: 15px 5px 15px 5px;依次为上、右、下、左
+    border-style: solid;
+    border-radius: 20px;	//圆角的大小
+    border-color: #000 #000 #000 #000;	//边框颜色，依次为上、右、下、左
+}
+
+.confirm{
+    width:20%;
+    padding-left: 6%;
+    padding-top: 5%;
+    font-size: 20px;
+    color: #FF6A57;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalConfirm{
+    padding-left: 10%;
+    padding-top: 5%;
+    font-size: 20px;
+    color:#E83132;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalCured{
+    padding-left: 10%;
+    padding-top: 5%;
+    font-size: 20px;
+    color: #10AEB5;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalDead{
+    padding-left: 10%;
+    padding-top: 5%;
+    font-size: 20px;
+    color: #4D5054;
+    letter-spacing:2px;
+    display: inline;
+}
+.confirmData{
+    width:20%;
+    padding-left: 8%;
+    padding-top: 5%;
+    padding-right:4%;
+    font-size: 20px;
+    color: #FF6A57;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalConfirmData{
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right:4%;
+    font-size: 20px;
+    color:#E83132;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalCuredData{
+    padding-left: 10%;
+    padding-top: 5%;
+    padding-right:4%;
+    font-size: 20px;
+    color: #10AEB5;
+    letter-spacing:2px;
+    display: inline;
+}
+.totalDeadData{
+    padding-left: 12%;
+    padding-top: 5%;
+    font-size: 20px;
+    color: #4D5054;
+    letter-spacing:2px;
+    display: inline;
+}
+.timeStyle{
+    padding-left: 6%;
+    padding-top: 5%;
+    font-size: 14px;
+    color: #4D5054;
+    letter-spacing:2px;
+    display: inline;
+}
+ 
+ 
