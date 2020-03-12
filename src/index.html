@@ -18,8 +18,7 @@
     </script>
 </head>
 
-<body>
-
+<body style="background-color:slategrey;">
     <!-- 下面是导航栏-->
     <ul class="layui-nav layui-bg-green" lay-filter="">
         <li class="layui-nav-item layui-this"><a href="index.html">疫情动态</a></li>
@@ -31,20 +30,20 @@
             </dl>
         </li>
         <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
-        <li class="layui-nav-item"><a href="page4.html">谣言汇总</a>
+        <li class="layui-nav-item"><a href="page/page4.html">谣言汇总</a>
         </li>
     </ul>
 
     <!-- 下面是轮播图 -->
     <div class="layui-carousel" id="test1" style="margin:0 auto;">
         <div carousel-item>
-            <div><img src="images\/5fdf8db1cb13495468e93e6251ecc75ed0094a6d.jpg" ，style="CURSOR: hand"
+            <div><img src="images/1.jpg" style="CURSOR: hand"
                     οnclick='window.open("https://baijiahao.baidu.com/s?id=1660753468784088427&wfr=spider&for=pc")'>
             </div>
-            <div>条目2</div>
-            <div>条目3</div>
-            <div>条目4</div>
-            <div>条目5</div>
+            <div><img src="images/2.jpg"></div>
+            <div><img src="images/3.jpg"></div>
+            <div><img src="images/4.jpg"></div>
+            <div><img src="images/5.jpg"></div>
         </div>
     </div>
     <br /><br />
@@ -62,8 +61,8 @@
         <!-- 下面是地图累计、现有确诊选项卡 -->
         <div class="layui-tab" lay-filter="mapTab">
             <ul class="layui-tab-title">
-            <li class="layui-this" data-status="1">全国现有确诊</li>
-            <li data-status="2">全国累计确诊</li>
+            <li class="layui-this" data-status="1"><button type="button" class="layui-btn layui-btn-warm">全国现有确诊</button></li>
+            <li data-status="2"><button type="button" class="layui-btn layui-btn-danger">全国累计确诊</button></li>
             </ul>
             <div class="layui-tab-content">
             <div class="layui-tab-item layui-show"></div>
@@ -75,10 +74,10 @@
         <div id="countryMap" style="width: 800px; height:600px;"></div><br/><br/>
         <!-- 地图统计折线图选项卡-->
         <div class="layui-tab" lay-filter="dataTab">
-            <ul class="layui-tab-title">
-            <li class="layui-this" data-status="1">全国疫情总体数据</li>
-            <li data-status="2">全国疫情新增趋势</li>
-            <li data-status="3">治愈率/死亡率</li>
+            <ul class="layui-tab-title" style="width: 1000px;">
+            <li class="layui-this" data-status="1"><button type="button" class="layui-btn ">全国疫情总体数据</button></li>
+            <li data-status="2"><button type="button" class="layui-btn">全国疫情新增趋势</button></li>
+            <li data-status="3"><button type="button" class="layui-btn ">治愈率/死亡率</button></li>
             </ul>
             <div class="layui-tab-content">
             <div class="layui-tab-item layui-show">
