@@ -2,15 +2,14 @@
     height: 150px; 
     width: 77%;
     margin: auto;
-    background: #9BD1FA;//背景色
-    border-width: 10px;	//边缘的宽度，如果要分别设置可以这样：border-width: 15px 5px 15px 5px;依次为上、右、下、左
+    background: #9BD1FA;
+    border-width: 10px;	
     border-style: solid;
-    border-radius: 20px;	//圆角的大小
-    border-color: #000 #000 #000 #000;	//边框颜色，依次为上、右、下、左
+    border-radius: 20px;	
+    border-color:#9BD1FA;	
 }
 
 .confirm{
-    width:20%;
     padding-left: 6%;
     padding-top: 5%;
     font-size: 20px;
@@ -43,7 +42,6 @@
     display: inline;
 }
 .confirmData{
-    width:20%;
     padding-left: 8%;
     padding-top: 5%;
     padding-right:4%;
