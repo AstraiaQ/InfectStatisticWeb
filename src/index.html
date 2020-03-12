@@ -45,41 +45,87 @@
     </div>
     <br /><br />
     <div class="layui-main" style="width: 800px; height:600px;">
+        <!-- 下面是全国统计数据 -->
+        <div class ="roundedRectangle">
+            <div class="confirm">现有确诊:</div>
+            <div class="suspect">现有疑似:</div>
+            <div class="totalConfirm">累计确诊:</div>
+        </div><br/><br/>
         <!-- 下面是地图切换按钮 -->
-        <button type="button" id="button1" class="layui-btn layui-btn-radius layui-btn-normal"
-            onclick="click1()">当前确诊</button>
-        <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm"
-            onclick="click2()">累计确诊</button>
+        <div class="layui-row">
+            
+            <button type="button" id="button1" class="layui-btn layui-btn-radius layui-btn-normal"
+                onclick="click1()" disabled="disabled">当前确诊</button>
+            <button type="button" id="button2" class="layui-btn layui-btn-radius layui-btn-warm"
+                onclick="click2()">累计确诊</button>
+        </div>
+        <br/><br/>
         <!-- 下面是地图区 -->
-        <div id="countryMap" style="width: 800px; height:600px;"></div>
-
-    </div>
-    <br/><br/>
-
-
-    <!-- 地图选项卡-->
-    <div class="layui-tab" lay-filter="dataTab">
-        <ul class="layui-tab-title">
-          <li class="layui-this" data-status="1">全国疫情总体数据</li>
-          <li data-status="2">全国疫情新增趋势</li>
-          <li data-status="3">治愈率/死亡率</li>
-        </ul>
-        <div class="layui-tab-content">
-          <div class="layui-tab-item layui-show">
-            <!--增长趋势图-->
-            <div id="trend-chart" style="height: 25rem"></div><hr/>
-          </div>
-          <div class="layui-tab-item">
-            <!--增长量-->
-            <div id="add-chart" style="height: 25rem"></div><hr/>
-          </div>
-          <div class="layui-tab-item">
-            <!--死亡率，治愈率趋势-->
-            <div id="rate-chart" style="height: 25rem"></div><hr/>
-          </div>
+        <div id="countryMap" style="width: 800px; height:600px;"></div><br/><br/>
+        <!-- 地图选项卡-->
+        <div class="layui-tab" lay-filter="dataTab">
+            <ul class="layui-tab-title">
+            <li class="layui-this" data-status="1">全国疫情总体数据</li>
+            <li data-status="2">全国疫情新增趋势</li>
+            <li data-status="3">治愈率/死亡率</li>
+            </ul>
+            <div class="layui-tab-content">
+            <div class="layui-tab-item layui-show">
+                <!--增长趋势图-->
+                <div id="trend-chart" style="height: 25rem"></div><hr/>
+            </div>
+            <div class="layui-tab-item">
+                <!--增长量-->
+                <div id="add-chart" style="height: 25rem"></div><hr/>
+            </div>
+            <div class="layui-tab-item">
+                <!--死亡率，治愈率趋势-->
+                <div id="rate-chart" style="height: 25rem"></div><hr/>
+            </div>
+            </div>
         </div>
     </div>
-
+  
+    <style type="text/CSS">
+        .roundedRectangle{
+            height: 300px; 
+            width: 77%;
+            margin: auto;
+            background: #9BD1FA;//背景色
+            border-width: 10px;	//边缘的宽度，如果要分别设置可以这样：border-width: 15px 5px 15px 5px;依次为上、右、下、左
+            border-style: solid;
+            border-radius: 20px;	//圆角的大小
+            border-color: #000 #000 #000 #000;	//边框颜色，依次为上、右、下、左
+        }
+        
+        .confirm{
+            width:20%;
+            padding-left: 10%;
+            padding-top: 5%;
+            font-size: 20px;
+            color: red;
+            letter-spacing:2px;
+            display: inline;
+        }
+        .suspect{
+            padding-left: 10%;
+            padding-top: 5%;
+            font-size: 20px;
+            color: red;
+            letter-spacing:2px;
+            display: inline;
+        }
+        .totalConfirm{
+            padding-left: 10%;
+            padding-top: 5%;
+            font-size: 20px;
+            color: red;
+            letter-spacing:2px;
+            display: inline;
+        }
+         
+         
+        </style>
 
       <!-- element模块加载-->
     <script>
