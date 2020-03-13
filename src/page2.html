@@ -70,37 +70,38 @@
     <!--地图-->
     <div class="layui-main" style="width: 800px; height:600px;">
         <div id="main" style="width: 800px; height:600px;"></div>
-    </div>
+   
 
 
-    <!-- 地图选项卡-->
-    <div class="layui-tab" lay-filter="dataTab">
-        <ul class="layui-tab-title">
-            <li class="layui-this" data-status="1">
-                <div id=view1></div>
-            </li>
-            <li data-status="2">
-                <div id=view2></div>
-            </li>
-            <li data-status="3">
-                <div id=view3></div>
-            </li>
-        </ul>
-        <div class="layui-tab-content">
-            <div class="layui-tab-item layui-show">
-                <!--增长趋势图-->
-                <div id="trend-chart" style="height: 25rem"></div>
-                <hr />
-            </div>
-            <div class="layui-tab-item">
-                <!--增长量-->
-                <div id="add-chart" style="height: 25rem"></div>
-                <hr />
-            </div>
-            <div class="layui-tab-item">
-                <!--死亡率，治愈率趋势-->
-                <div id="rate-chart" style="height: 25rem"></div>
-                <hr />
+        <!-- 地图选项卡-->
+        <div class="layui-tab" lay-filter="dataTab">
+            <ul class="layui-tab-title">
+                <li class="layui-this" data-status="1">
+                    <div id=view1></div>
+                </li>
+                <li data-status="2">
+                    <div id=view2></div>
+                </li>
+                <li data-status="3">
+                    <div id=view3></div>
+                </li>
+            </ul>
+            <div class="layui-tab-content">
+                <div class="layui-tab-item layui-show">
+                    <!--增长趋势图-->
+                    <div id="trend-chart" style="height: 25rem"></div>
+                    <hr />
+                </div>
+                <div class="layui-tab-item">
+                    <!--增长量-->
+                    <div id="add-chart" style="height: 25rem"></div>
+                    <hr />
+                </div>
+                <div class="layui-tab-item">
+                    <!--死亡率，治愈率趋势-->
+                    <div id="rate-chart" style="height: 25rem"></div>
+                    <hr />
+                </div>
             </div>
         </div>
     </div>
@@ -209,152 +210,27 @@
                             return result;
                         }
                     },
+                    visualMap: {
+                        type: 'piecewise',
+                        pieces: [
+                            { gt: 10000 }, // 大于10000
+                            { gt: 5000, lte: 10000 },
+                            { gt: 1000, lte: 5000 },
+                            { gt: 500, lte: 1000 },  // (900, 1500]
+                            { gt: 100, lte: 500 },  // (310, 1000]
+                            { gt: 10, lte: 100 },   // (200, 300]
+                            { gt: 0, lte: 10 },       // (0, 10]
+                        ],
+                        inRange: {
+                            color: ['#ffcfc3', '#eda595', '#d27b64', '#d5462a', '#a8352e', '#6a211d', '#562a2a']
+                        }
+                    }
                 };
                 // 生成地图
                 chart.setOption(option);
                 //console.log(totalArray);
             });
     </script>
-    <script type="text/javascript">
-
-
-        /*jQuery.support.cors = true;
-        function login() {
-            $.ajax({
-                //几个参数需要注意一下
-                type: "GET", //方法类型
-                crossDomain: true,
-                dataType: "jsonp", //预期服务器返回的数据类型
-                url: "https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=湖南省", //url
-                data: $('#form1').serialize(),
-                success: function (result) {
-                    console.log(result); //打印服务端返回的数据(调试用)
-                    if (200 == result.resultCode) {
-                        alert("SUCCESS");
-                    };
-                },
-                error: function () {
-                    alert("异常！");
-                }
-            });
-        }
-
-        login();*/
-
-        /*function getDay(day) {
-            var today = new Date();
-            var targetday_milliseconds = today.getTime() + 1000 * 60 * 60 * 24 * day;
-            today.setTime(targetday_milliseconds); //注意，这行是关键代码
-            var tYear = today.getFullYear();
-            var tMonth = today.getMonth();
-            var tDate = today.getDate();
-            tMonth = doHandleMonth(tMonth + 1);
-            tDate = doHandleMonth(tDate);
-            return tYear + "-" + tMonth + "-" + tDate;
-        }
-        function doHandleMonth(month) {
-            var m = month;
-            if (month.toString().length == 1) {
-                m = "0" + month;
-            }
-            return m;
-        }
-        //console.log(getDay(0));//当日日期，1明日-1昨日
-        //todo
-        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=0&province=湖南省",
-        function (data, status) {
-        console.log(data);
-        });
-
-
-
-        var dom = document.getElementById("container");
-        var myChart = echarts.init(dom);
-        var app = {};
-        option = null;
-        option = {
-            title: {
-                text: '整体疫情趋势'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['累计确诊人数', '疑似感染人数', '治愈人数', '死亡人数', '重症病例人数']
-            },
-            grid: {
-                left: '3%',
-                right: '4%',
-                bottom: '3%',
-                containLabel: true
-            },
-            toolbox: {
-                feature: {
-                    saveAsImage: {}
-                }
-            },
-            xAxis: {
-                type: 'category',
-                boundaryGap: false,
-                data: ['周一', '周二', '周三', '周四', '周五', '周六', '周日']
-            },
-            yAxis: {
-                type: 'value'
-            },
-            series: [
-                {
-                    name: '邮件营销',
-                    type: 'line',
-                    stack: '总量',
-                    data: [120, 132, 101, 134, 90, 230, 210]
-                },
-                {
-                    name: '联盟广告',
-                    type: 'line',
-                    stack: '总量',
-                    data: [220, 182, 191, 234, 290, 330, 310]
-                },
-                {
-                    name: '视频广告',
-                    type: 'line',
-                    stack: '总量',
-                    data: [150, 232, 201, 154, 190, 330, 410]
-                },
-                {
-                    name: '直接访问',
-                    type: 'line',
-                    stack: '总量',
-                    data: [320, 332, 301, 334, 390, 330, 320]
-                },
-                {
-                    name: '搜索引擎',
-                    type: 'line',
-                    stack: '总量',
-                    data: [820, 932, 901, 934, 1290, 1330, 1320]
-                }
-            ]
-        };
-        ;
-        if (option && typeof option === "object") {
-            myChart.setOption(option, true);
-        }*/
-    </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     <!-- element模块加载-->
