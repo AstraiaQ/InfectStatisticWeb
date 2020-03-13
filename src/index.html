@@ -20,7 +20,7 @@
 
 <body style="background-color:slategrey;">
     <!-- 下面是导航栏-->
-    <ul class="layui-nav layui-bg-green" lay-filter="">
+    <ul class="layui-nav layui-bg-green" lay-filter="" style="width: 100%;">
         <li class="layui-nav-item layui-this"><a href="index.html">疫情动态</a></li>
         <li class="layui-nav-item"><a href="javascript:;">迁徙地图</a>
             <dl class="layui-nav-child layui-bg-green">
@@ -30,7 +30,7 @@
             </dl>
         </li>
         <li class="layui-nav-item"><a href="page/page3.html">全民热搜</a></li>
-        <li class="layui-nav-item"><a href="page/page4.html">谣言汇总</a>
+        <li class="layui-nav-item"><a href="page/page4.html">实时播报</a>
         </li>
     </ul>
 
@@ -142,8 +142,8 @@
             //建造实例
             carousel.render({
                 elem: '#test1'
-                , width: '40%' //设置容器宽度
-                , arrow: 'none' //始终显示箭头
+                , width: '600px' //设置容器宽度
+                , arrow: 'always' //始终显示箭头
                 //,anim: 'updown' //切换动画方式
             });
         });
