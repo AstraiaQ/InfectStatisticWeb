@@ -71,33 +71,42 @@
     <div class="layui-main" style="width: 800px; height:600px;">
         <div id="main" style="width: 800px; height:600px;"></div>
     </div>
-    
+
 
     <!-- 地图选项卡-->
     <div class="layui-tab" lay-filter="dataTab">
-        <ul class="layui-tab-title" >
-          <li class="layui-this" data-status="1"><div id=view1></div></li>
-            <li data-status="2"><div id=view2></div></li>
-            <li data-status="3"><div id=view3></div></li>
+        <ul class="layui-tab-title">
+            <li class="layui-this" data-status="1">
+                <div id=view1></div>
+            </li>
+            <li data-status="2">
+                <div id=view2></div>
+            </li>
+            <li data-status="3">
+                <div id=view3></div>
+            </li>
         </ul>
         <div class="layui-tab-content">
-          <div class="layui-tab-item layui-show">
-            <!--增长趋势图-->
-            <div id="trend-chart" style="height: 25rem"></div><hr/>
-          </div>
-          <div class="layui-tab-item">
-            <!--增长量-->
-            <div id="add-chart" style="height: 25rem"></div><hr/>
-          </div>
-          <div class="layui-tab-item">
-            <!--死亡率，治愈率趋势-->
-            <div id="rate-chart" style="height: 25rem"></div><hr/>
-          </div>
+            <div class="layui-tab-item layui-show">
+                <!--增长趋势图-->
+                <div id="trend-chart" style="height: 25rem"></div>
+                <hr />
+            </div>
+            <div class="layui-tab-item">
+                <!--增长量-->
+                <div id="add-chart" style="height: 25rem"></div>
+                <hr />
+            </div>
+            <div class="layui-tab-item">
+                <!--死亡率，治愈率趋势-->
+                <div id="rate-chart" style="height: 25rem"></div>
+                <hr />
+            </div>
         </div>
     </div>
-    <script>function paramm1(){view1.innerText = param+"疫情总体数据";}paramm1();</script>
-    <script>function paramm2(){view2.innerText = param+"疫情新增趋势";}paramm2();</script>
-    <script>function paramm3(){view3.innerText = param+"治愈率/死亡率";}paramm3();</script>
+    <script>function paraMm1() { view1.innerText = param + "疫情总体数据"; } paraMm1();</script>
+    <script>function paraMm2() { view2.innerText = param + "疫情新增趋势"; } paraMm2();</script>
+    <script>function paraMm3() { view3.innerText = param + "治愈率/死亡率"; } paraMm3();</script>
 
 
 
@@ -105,12 +114,54 @@
     <!--主地图-->
     <script type="text/javascript">
 
+        //省份地图参数匹配
+        function provinceName(province) {
+            var provincename;
+            if (province == "新疆") {
+                provincename = province + "维吾尔自治区";
+            } else if (province == "广西") {
+                provincename = province + "壮族自治区";
+            } else if (province == "内蒙古" || province == "西藏") {
+                provincename = province + "自治区";
+            } else if (province == "宁夏") {
+                provincename = province + "回族自治区";
+            } else if (province == "北京" || province == "重庆" || province == "天津" || province == "上海") {
+                provincename = province + "市";
+            } else if (province == "台湾") {
+                provincename = province;
+            }
+            else {
+                provincename = province + "省";
+            }
+            return provincename;
+        }
+
+        //市级地图参数匹配
+        function isShi(cityname) {
+            if (cityname.endWith("区") || cityname.endWith("县")||cityname.endWith("盟"))
+                return false;
+            else {
+                return true;
+            }
+        }
+
+        String.prototype.endWith = function (endStr) {
+            var d = this.length - endStr.length;
+            return (d >= 0 && this.lastIndexOf(endStr) == d)
+        }
+
+
+
+
         //获取真实数据
-        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=" + param + "省",
+        $.get("https://lab.isaaclin.cn/nCoV/api/area?latest=1&province=" + provinceName(param),
             function (data, status) {
-                console.log(data.results[0].cities);
+                console.log(data);
                 totalArray = [];
                 data.results[0].cities.forEach(item => {
+                    if (isShi(item.cityName)) {
+                        item.cityName += "市";
+                    }
                     totalArray.push({
                         name: item.cityName, // 省份下的市级名字
                         value: item.confirmedCount, // 累计确诊
@@ -120,6 +171,7 @@
                         dead: item.deadCount//死亡人数
                     });
                 });
+
                 console.log(totalArray[0]);
                 //开始作图，初始化
                 var chart = echarts.init(document.getElementById('main'));
@@ -139,7 +191,7 @@
                     // 设置地图及数据
                     series: [{
                         type: 'map',
-                        map: param, // 指定是中国地图
+                        map: param, // 指定是省份地图
                         data: totalArray, // 设置地图中的数据
                         label: { // 控制默认显示省的名字
                             show: true
@@ -315,16 +367,16 @@
             //element.tabChange('statisticTab', 'tab2'); 
             //…
             //element.init();
-            element.on('tab(dataTab)', function(data){
+            element.on('tab(dataTab)', function (data) {
                 var status = $(this).attr('data-status');
                 switch (status) {
-                    case '1': {initTrendChart(); break;}
-                    case '2': {initAddChart(); break;}
-                    case '3': {initRateChart();break;}
+                    case '1': { initTrendChart(); break; }
+                    case '2': { initAddChart(); break; }
+                    case '3': { initRateChart(); break; }
                     default: ;
                 }
             });
-           
+
         });
 
         initTrendChart();//偷偷加载第一个图表
