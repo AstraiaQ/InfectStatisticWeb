@@ -84,7 +84,6 @@ var initTrendChart = function () {
                 initDetailChart(date, confirmedNCoV, suspectedNCoV, curedNCoV, deadNCoV);
                 return;
             }
-            alert("获取数据失败");
         }, error: function (res) {
             if (res.state() === "rejected" && !this.url.includes(dataUrlBackup)) {
                 this.url = this.url.replace(dataUrl, dataUrlBackup);
@@ -348,7 +347,6 @@ var initAddChart = function () {
                 initDetailChart(date, confirmedNCoV, suspectedNCoV, curedNCoV, deadNCoV);
                 return;
             }
-            alert("获取数据失败");
         }, error: function (res) {
             if (res.state() === "rejected" && !this.url.includes(dataUrlBackup)) {
                 this.url = this.url.replace(dataUrl, dataUrlBackup);
@@ -615,7 +613,6 @@ var initRateChart = function () {
                 initDetailChart(date, deadRate, curedRate);
                 return;
             }
-            alert("获取数据失败");
         }, error: function (res) {
             if (res.state() === "rejected" && !this.url.includes(dataUrlBackup)) {
                 this.url = this.url.replace(dataUrl, dataUrlBackup);
@@ -797,7 +794,6 @@ var initCoreData = function (province) {
 
                 return;
             }
-            alert("获取数据失败");
 
         },
         error: function (res) {
