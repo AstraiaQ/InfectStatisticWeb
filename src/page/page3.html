@@ -15,8 +15,8 @@
 <body>
     <!-- 下面是导航栏-->
     <ul class="layui-nav layui-bg-green" lay-filter="" style="width: 100%;">
-        <li class="layui-nav-item layui-this"><a href="../index.html">疫情动态</a></li>
-        <li class="layui-nav-item"><a href="page3.html">辟谣中心</a></li>
+        <li class="layui-nav-item"><a href="../index.html">疫情动态</a></li>
+        <li class="layui-nav-item  layui-this"><a href="page3.html">辟谣中心</a></li>
         <li class="layui-nav-item"><a href="page4.html">热点新闻</a>
         </li>
     </ul>
@@ -57,8 +57,9 @@
                          html +='<div class="day">\n' +
                             '            <div class="heading">\n' +
                             '                <h4><a href="'+rumors[i].sourceUrl+'" class="news-title" target="_blank">'+ rumors[i].title+'</a></h4>\n' +
-                            '            </div>\n' +
-                            '            <div class="content" ><div style="color:#ff9a1f;font-weight: bolder">' + rumors[i].mainSummary+'</div><div style="color: #2a3c4a;">详情：' +rumors[i].body+'</div>'+
+                            '            </div><br/>\n' +
+                            '            <div class="content" ><div class="heading2">' + rumors[i].mainSummary+
+                                        '<br/><br/></div><div class="content">详情：' +rumors[i].body+'</div>'+
                             '            </div>\n' +
                             '        </div>';
                     }
